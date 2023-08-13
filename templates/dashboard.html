@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<style>
+  body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+p {
+  text-align: center;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+section.new-image-tab,
+section.my-image-tab {
+  margin: 20px;
+}
+
+section.new-image-tab h2,
+section.my-image-tab h2 {
+  text-align: center;
+}
+
+form input[type="file"],
+form input[type="text"],
+form select {
+  display: block;
+  margin: 10px auto;
+  padding: 5px;
+}
+
+form button[type="submit"] {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.my-image-tab{
+    padding-bottom: 80px;
+}
+
+.gallery {
+  display: inline-block;
+  margin: 30px;
+  padding-bottom: 18px;
+}
+
+.gallery img {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.gallery .desc {
+  text-align: center;
+}
+
+.gallery .desc h3 {
+  margin-top: 0;
+}
+
+.gallery .desc form input[type="text"] {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.gallery .desc form button[type="submit"] {
+  display: inline-block;
+  margin: 0;
+  padding: 5px 10px;
+}
+
+.gallery a {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #ccc;
+  margin: 20px 0;
+}
+
+/* .image-container {
+    width: 154px; /* Adjust the width as per your requirements */
+    height: 154px; /* Adjust the height as per your requirements */
+    overflow: hidden;
+    padding: 10px;
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  } */
+
+</style>
+<body>
+  <h1>Welcome, {{ username }}!</h1>
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+  </nav>
+  <section class="new-image-tab">
+    <h2>Upload or create a new image</h2>
+    <form method="post" enctype="multipart/form-data" action="{{url_for('upload')}}">
+      <input type="file" name="file" required>
+      <br><br>
+      <button type="submit">Upload</button>
+    </form>
+    <br><br>
+    <hr>
+    <br><br>
+    <h2>Whom do you want to collaborate with?</h2>
+    <form method="post" enctype="multipart/form-data" action="{{url_for('collaborate')}}">
+      <h2>Enter username</h2>
+      <input type="text" id="colab_name" name="colab_name" placeholder="Username" required><br><br><br>
+      <h2>Select an image</h2>
+      <select id="image_name" name="image_name">
+          {% for image in my_images %}
+              <option value="{{ image['NAME'] }}">{{ image['NAME'] }}</option>
+          {% endfor %}
+      </select>
+      <br><br>
+      <button type="submit">Collaborate</button>
+    </form>
+  </section>
+  <br><br>
+  <hr>
+  <br><br>
+  <section class="my-image-tab">
+    <h2>My images</h2>
+    <ul>
+      {% for image in my_images %}
+      <div class="gallery" name="{{image['NAME']}}">
+        <a href="{{ url_for('editor',id=image['ID']) }}">
+          <!-- <div class="image-container"> -->
+            <img src="data:image/png;base64,{{ image['DATA'] }}" height="400" width="600" />
+          <!-- </div> -->
+          <p>{{image['NAME']}}</p>
+        </a>
+        <div class="desc">
+          {% if image['COLLABORATORS'] != None %}
+            <h3>Shared by: {{ image['COLLABORATORS'] }}</h3>
+          {% endif %}
+          <p >
+          <form method="post" id="{{image['NAME']}}" action="{{ url_for('rename_img', id=image['ID']) }}" style="display: none;">
+            <input type="text" name="new_name" value="{{ image['NAME'] }}" required>
+            <button type="submit">Rename</button>
+          </form>
+        </div>
+        <a href="{{ url_for('del_img',id=image['ID']) }}"><i class="fas fa-trash-alt"></i></a>
+      </div>
+      {% endfor %}
+    </ul>
+    {% if not my_images %}
+    <p>You haven't uploaded any images yet.</p>
+    {% endif %}
+  </section>
+  <br>
+  <script>
+    window.watsonAssistantChatOptions = {
+      integrationID: "3e779007-fb9f-4f7a-8fb1-b19d9eb8b24c", // The ID of this integration.
+      region: "au-syd", // The region your integration is hosted in.
+      serviceInstanceID: "892102cb-d0c7-4277-847a-b2813f1e9648", // The ID of your service instance.
+      onLoad: function(instance) { instance.render(); }
+    };
+    setTimeout(function(){
+      const t=document.createElement('script');
+      t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+      document.head.appendChild(t);
+    });
+  </script>
+
+</body>
+<script>
+  document.addEventListener('keydown', function(event) {
+  if (event.key === "F2") {
+    const selectedImage = document.querySelector('.gallery:hover');
+    if (selectedImage) {
+      const imageName = selectedImage.getAttribute('name');
+      var renameForm = document.getElementById(imageName);
+      renameForm.style.display = "block";
+      document.addEventListener('mousedown',()=>{
+        const selectedImage = document.querySelector('.gallery form:hover');
+        if (!selectedImage) {
+          renameForm.style.display = "none";
+        }
+      })
+    }
+  }
+});
+</script>
+
+</html>

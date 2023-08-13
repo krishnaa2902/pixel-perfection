@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
+  <title>Photo Editor</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="/login">Login / Register</a></li>
+          </ul>
+          
+        </nav>
+      </header>
+      
+      
+
+  <section class="hero">
+    <h1>Welcome to Photo Editor</h1>
+    <p>Create stunning photos with ease</p>
+    <a href="/login" class="btn">Get Started</a>
+  </section>
+
+  <section class="features" id="features">
+    <h2>Features</h2>
+    <div class="feature">
+      <img src="static/images/filter.png" alt="Feature 1">
+      <h3>Photo Filters</h3>
+      <p>Add beautiful filters to your photos with just a click.</p>
+      
+    </div>
+    <div class="feature">
+      <img src="static/images/slider.png" alt="Feature 2">
+      <h3>Adjustments</h3>
+      <p>Make precise adjustments to brightness, contrast, and more.</p>
+    </div>
+    <div class="feature">
+      <img src="static/images/retouch.png" alt="Feature 3">
+      <h3>Retouching</h3>
+      <p>Easily remove blemishes and enhance your portraits.</p>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <h2>Pricing</h2>
+    <div class="pricing-option">
+      <h3>Basic</h3>
+      <p>Access to essential editing features</p>
+      <p class="price"><h1>&#8377; 0</h1></p>
+      <ul class="options">
+        <li>Basic filters</li>
+        <li>Image cropping</li>
+        <li>Adjustments</li>
+      </ul>
+      <div class="btn-container">
+        <a href="/login" class="btn">Get Started</a>
+      </div>
+    </div>
+    <div class="pricing-option">
+      <h3>Premium</h3>
+      <p>Additional filters and advanced editing tools</p>
+      <p class="price strike-through">&#8377; 1000</p>
+      <p class="special-offer">Naan Mudhalvan Offer: <h1>&#8377; 0</h1></p>
+      <ul class="options">
+        <li>Advanced filters</li>
+        <li>Retouching tools</li>
+        <li>Selective editing</li>
+        <li>Image effects</li>
+      </ul>
+      <div class="btn-container">
+        <a href="/login" class="btn">Get Started</a>
+      </div>
+    </div>
+    <div class="pricing-option">
+      <h3>Pro</h3>
+      <p>Full access to all features and priority support</p>
+      <p class="price strike-through">&#8377; 3500</p>
+      <p class="special-offer">Naan Mudhalvan Offer: <h1>&#8377; 0</h1></p>
+      <ul class="options">
+        <li>Advanced filters</li>
+        <li>Retouching tools</li>
+        <li>Selective editing</li>
+        <li>Image effects</li>
+        <li>Layer management</li>
+        <li>Batch processing</li>
+      </ul>
+      <div class="btn-container">
+        <a href="/login" class="btn">Get Started</a>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    window.watsonAssistantChatOptions = {
+      integrationID: "3e779007-fb9f-4f7a-8fb1-b19d9eb8b24c", // The ID of this integration.
+      region: "au-syd", // The region your integration is hosted in.
+      serviceInstanceID: "892102cb-d0c7-4277-847a-b2813f1e9648", // The ID of your service instance.
+      onLoad: function(instance) { instance.render(); }
+    };
+    setTimeout(function(){
+      const t=document.createElement('script');
+      t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+      document.head.appendChild(t);
+    });
+  </script>
+
+  <footer>
+    <p>&copy; 2023 Pixel Perfection. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>
